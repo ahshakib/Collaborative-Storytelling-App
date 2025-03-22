@@ -1,0 +1,92 @@
+[
+  {
+    "title": "The Lost City of Atlantis",
+    "description": "A team of archaeologists discovers evidence of the legendary lost city of Atlantis. As they dive deeper into the ocean's mysteries, they uncover secrets that might have been better left buried.",
+    "genre": "Adventure",
+    "tags": ["archaeology", "ocean", "mystery", "ancient civilization"],
+    "isPrivate": false,
+    "maxContributors": 10,
+    "contributionTimeLimit": 48
+  },
+  {
+    "title": "Echoes of Tomorrow",
+    "description": "In the year 2150, a scientist creates a device that can hear echoes of future events. When the device predicts a global catastrophe, a race against time begins to prevent the inevitable.",
+    "genre": "Science Fiction",
+    "tags": ["future", "technology", "time", "apocalypse"],
+    "isPrivate": false,
+    "maxContributors": 0,
+    "contributionTimeLimit": 0
+  },
+  {
+    "title": "Whispers in the Attic",
+    "description": "After moving into an old Victorian house, a family begins to hear strange whispers coming from the attic. What they discover will challenge everything they believe about the supernatural.",
+    "genre": "Horror",
+    "tags": ["haunted house", "ghosts", "family", "supernatural"],
+    "isPrivate": true,
+    "maxContributors": 5,
+    "contributionTimeLimit": 24
+  },
+  {
+    "title": "The Detective's Last Case",
+    "description": "A retired detective is pulled back for one final case when a series of murders mimics his most famous unsolved mystery. As the body count rises, he realizes the killer might be closer than he thinks.",
+    "genre": "Mystery",
+    "tags": ["detective", "murder", "investigation", "thriller"],
+    "isPrivate": false,
+    "maxContributors": 8,
+    "contributionTimeLimit": 72
+  },
+  {
+    "title": "Roses in Winter",
+    "description": "Two strangers meet during a snowstorm that leaves them stranded in a small mountain town. As days pass, they discover a connection that transcends their different worlds and past heartbreaks.",
+    "genre": "Romance",
+    "tags": ["winter", "strangers to lovers", "small town", "healing"],
+    "isPrivate": false,
+    "maxContributors": 3,
+    "contributionTimeLimit": 48
+  },
+  {
+    "title": "The Dragon's Apprentice",
+    "description": "In a world where dragons and humans coexist, a young orphan becomes the unlikely apprentice to the oldest and most powerful dragon. Their bond will be tested as ancient enemies resurface.",
+    "genre": "Fantasy",
+    "tags": ["dragons", "magic", "coming of age", "adventure"],
+    "isPrivate": false,
+    "maxContributors": 0,
+    "contributionTimeLimit": 0
+  },
+  {
+    "title": "The Last Laugh",
+    "description": "A struggling comedian finds a mysterious notebook that contains jokes that make everyone laugh uncontrollably. As his fame rises, he discovers the dark price of using the notebook's power.",
+    "genre": "Comedy",
+    "tags": ["comedian", "dark humor", "fame", "supernatural"],
+    "isPrivate": true,
+    "maxContributors": 7,
+    "contributionTimeLimit": 36
+  },
+  {
+    "title": "1863: Divided Hearts",
+    "description": "During the American Civil War, two brothers find themselves fighting on opposite sides. Their letters home tell a story of divided loyalties, shared memories, and the hope for reconciliation.",
+    "genre": "Historical Fiction",
+    "tags": ["civil war", "brothers", "family", "letters"],
+    "isPrivate": false,
+    "maxContributors": 5,
+    "contributionTimeLimit": 48
+  },
+  {
+    "title": "The Countdown",
+    "description": "A mysterious countdown appears on digital screens worldwide. No one knows what happens when it reaches zero, but a group of strangers must work together to solve the puzzle before time runs out.",
+    "genre": "Thriller",
+    "tags": ["countdown", "global threat", "puzzle", "strangers"],
+    "isPrivate": false,
+    "maxContributors": 10,
+    "contributionTimeLimit": 24
+  },
+  {
+    "title": "Backstage Shadows",
+    "description": "Behind the glamour of a Broadway production lies a web of rivalries, romances, and ambitions. When the lead actress disappears on opening night, the understudies must step into more than just her role.",
+    "genre": "Drama",
+    "tags": ["theater", "broadway", "disappearance", "ambition"],
+    "isPrivate": true,
+    "maxContributors": 6,
+    "contributionTimeLimit": 48
+  }
+]
