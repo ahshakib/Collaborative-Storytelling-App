@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -51,12 +52,18 @@ export default function Dashboard() {
   if (loading || (!isAuthenticated && typeof window !== 'undefined')) {
     return (
       <Layout title="Dashboard | Collaborative Storytelling">
-        <div className="container mx-auto px-4 py-12 text-center">
-          <p>Loading...</p>
+        <div className="min-h-screen flex justify-center items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
         </div>
       </Layout>
     );
   }
+
+  const stats = [
+    { label: 'Stories Created', value: myStories.length, icon: '📝', color: 'bg-blue-100 text-blue-600' },
+    { label: 'Contributions', value: myContributions.length, icon: '✍️', color: 'bg-purple-100 text-purple-600' },
+    { label: 'Total Views', value: '0', icon: '👁️', color: 'bg-green-100 text-green-600' }, // Placeholder for now
+  ];
 
   return (
     <Layout title="Dashboard | Collaborative Storytelling">
@@ -64,86 +71,148 @@ export default function Dashboard() {
         <title>Dashboard | Collaborative Storytelling</title>
       </Head>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4 md:mb-0">Your Dashboard</h1>
-          <Link href="/stories/create" className="btn-primary">
-            Create New Story
-          </Link>
-        </div>
-
-        {error && (
-          <div className="bg-red-50 text-red-500 p-4 rounded-md mb-6">
-            {error}
+      <div className="min-h-screen bg-gray-50 py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.username}!</h1>
+              <p className="text-gray-600 mt-1">Here's what's happening with your stories.</p>
+            </div>
+            <Link href="/stories/create" className="mt-4 md:mt-0 btn-primary shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 transform hover:-translate-y-0.5 transition-all">
+              Create New Story
+            </Link>
           </div>
-        )}
 
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
-              <button
-                onClick={() => setActiveTab('myStories')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'myStories' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex items-center"
               >
-                My Stories
-              </button>
-              <button
-                onClick={() => setActiveTab('contributions')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'contributions' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
-              >
-                My Contributions
-              </button>
-            </nav>
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl mr-4 ${stat.color}`}>
+                  {stat.icon}
+                </div>
+                <div>
+                  <p className="text-gray-500 text-sm font-medium">{stat.label}</p>
+                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-500 p-4 rounded-md mb-6 border border-red-100">
+              {error}
+            </div>
+          )}
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden min-h-[500px]">
+            <div className="border-b border-gray-100">
+              <nav className="flex">
+                <button
+                  onClick={() => setActiveTab('myStories')}
+                  className={`flex-1 py-4 text-center font-medium text-sm transition-colors relative ${
+                    activeTab === 'myStories' ? 'text-primary-600' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  My Stories
+                  {activeTab === 'myStories' && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
+                    />
+                  )}
+                </button>
+                <button
+                  onClick={() => setActiveTab('contributions')}
+                  className={`flex-1 py-4 text-center font-medium text-sm transition-colors relative ${
+                    activeTab === 'contributions' ? 'text-primary-600' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  My Contributions
+                  {activeTab === 'contributions' && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
+                    />
+                  )}
+                </button>
+              </nav>
+            </div>
+
+            <div className="p-6 md:p-8">
+              {isLoading ? (
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600"></div>
+                </div>
+              ) : (
+                <AnimatePresence mode="wait">
+                  {activeTab === 'myStories' && (
+                    <motion.div
+                      key="myStories"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {myStories.length === 0 ? (
+                        <div className="text-center py-12">
+                          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
+                            📝
+                          </div>
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">No stories yet</h3>
+                          <p className="text-gray-500 mb-6">You haven't created any stories yet. Start your journey today!</p>
+                          <Link href="/stories/create" className="btn-primary">
+                            Create Your First Story
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {myStories.map((story) => (
+                            <StoryCard key={story._id} story={story} />
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'contributions' && (
+                    <motion.div
+                      key="contributions"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {myContributions.length === 0 ? (
+                        <div className="text-center py-12">
+                          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
+                            ✍️
+                          </div>
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">No contributions yet</h3>
+                          <p className="text-gray-500 mb-6">You haven't contributed to any stories yet. Browse stories to find one you like!</p>
+                          <Link href="/stories" className="btn-primary">
+                            Browse Stories
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {myContributions.map((story) => (
+                            <StoryCard key={story._id} story={story} />
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              )}
+            </div>
           </div>
         </div>
-
-        {isLoading ? (
-          <div className="text-center py-12">
-            <p>Loading your stories...</p>
-          </div>
-        ) : (
-          <div>
-            {activeTab === 'myStories' && (
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Stories You Created</h2>
-                {myStories.length === 0 ? (
-                  <div className="card p-8 text-center">
-                    <p className="text-gray-600 mb-4">You haven't created any stories yet.</p>
-                    <Link href="/stories/create" className="btn-primary">
-                      Create Your First Story
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {myStories.map((story) => (
-                      <StoryCard key={story._id} story={story} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === 'contributions' && (
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Stories You Contributed To</h2>
-                {myContributions.length === 0 ? (
-                  <div className="card p-8 text-center">
-                    <p className="text-gray-600 mb-4">You haven't contributed to any stories yet.</p>
-                    <Link href="/stories" className="btn-primary">
-                      Browse Stories to Contribute
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {myContributions.map((story) => (
-                      <StoryCard key={story._id} story={story} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </Layout>
   );

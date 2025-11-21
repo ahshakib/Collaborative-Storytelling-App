@@ -292,3 +292,26 @@ exports.likeStory = async (req, res) => {
     });
   }
 };
+
+// Get platform stats
+exports.getStats = async (req, res) => {
+  try {
+    const storyCount = await Story.countDocuments({ isPrivate: { $ne: true } });
+    const userCount = await User.countDocuments();
+    
+    res.status(200).json({
+      success: true,
+      stats: {
+        stories: storyCount,
+        writers: userCount,
+      },
+    });
+  } catch (error) {
+    console.error('Get stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching stats',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};

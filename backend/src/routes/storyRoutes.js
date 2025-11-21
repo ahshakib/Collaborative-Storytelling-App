@@ -27,6 +27,11 @@ router.post(
 // @access  Public (with private stories hidden)
 router.get('/', storyController.getAllStories);
 
+// @route   GET /api/stories/stats
+// @desc    Get platform stats
+// @access  Public
+router.get('/stats', storyController.getStats);
+
 // @route   GET /api/stories/:id
 // @desc    Get a single story by ID
 // @access  Public (with private check)

@@ -1,4 +1,5 @@
 import { Toaster } from 'react-hot-toast';
+import 'react-quill/dist/quill.snow.css';
 import { AuthProvider } from '../context/AuthContext';
 import '../styles/globals.css';
 

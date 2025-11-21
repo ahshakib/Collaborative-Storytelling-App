@@ -11,15 +11,19 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "axios": "^1.4.0",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.24",
     "next": "^13.4.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
     "react-hot-toast": "^2.4.1",
+    "react-quill": "^2.0.0",
     "socket.io-client": "^4.7.1",
     "swr": "^2.2.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
     "eslint-config-next": "^13.4.12",
