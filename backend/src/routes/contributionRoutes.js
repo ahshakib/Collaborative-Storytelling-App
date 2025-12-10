@@ -20,6 +20,16 @@ router.post(
   contributionController.createContribution
 );
 
+// @route   GET /api/contributions/user/drafts
+// @desc    Get user's drafts
+// @access  Private
+router.get('/user/drafts', auth, contributionController.getUserDrafts);
+
+// @route   GET /api/contributions/story/:storyId/draft
+// @desc    Get user's draft for a specific story
+// @access  Private
+router.get('/story/:storyId/draft', auth, contributionController.getUserStoryDraft);
+
 // @route   GET /api/contributions/story/:storyId
 // @desc    Get all contributions for a story
 // @access  Public (with private check)

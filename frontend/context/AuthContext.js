@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         if (token) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`);
-          setUser(res.data);
+          setUser(res.data.user);
         }
       } catch (error) {
         console.error('Authentication error:', error);
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, userData);
-      setUser(res.data);
+      setUser(res.data.user);
       toast.success('Profile updated successfully!');
       return true;
     } catch (error) {

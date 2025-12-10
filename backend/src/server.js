@@ -13,6 +13,7 @@ const storyRoutes = require('./routes/storyRoutes');
 const contributionRoutes = require('./routes/contributionRoutes');
 const voteRoutes = require('./routes/voteRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const collaboratorRoutes = require('./routes/collaboratorRoutes');
 
 // Initialize express app
 const app = express();
@@ -38,6 +39,7 @@ app.use('/api/stories', storyRoutes);
 app.use('/api/contributions', contributionRoutes);
 app.use('/api/votes', voteRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/collaborators', collaboratorRoutes);
 
 // Setup socket handlers
 setupSocketHandlers(io);

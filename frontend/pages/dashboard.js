@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import StoryCard from '../components/StoryCard';
 import { useAuth } from '../context/AuthContext';
+import { getUserDrafts } from '../services/contributionService';
 import { getAllStories } from '../services/storyService';
 
 export default function Dashboard() {
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('myStories');
   const [myStories, setMyStories] = useState([]);
   const [myContributions, setMyContributions] = useState([]);
+  const [myDrafts, setMyDrafts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -41,6 +43,10 @@ export default function Dashboard() {
       // Fetch stories the user has contributed to
       const contributionsResponse = await getAllStories({ contributors: user._id, creator: { $ne: user._id } });
       setMyContributions(contributionsResponse.stories);
+
+      // Fetch user drafts
+      const draftsResponse = await getUserDrafts();
+      setMyDrafts(draftsResponse.drafts);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError('Failed to load your dashboard data. Please try again later.');
@@ -62,7 +68,7 @@ export default function Dashboard() {
   const stats = [
     { label: 'Stories Created', value: myStories.length, icon: '📝', color: 'bg-blue-100 text-blue-600' },
     { label: 'Contributions', value: myContributions.length, icon: '✍️', color: 'bg-purple-100 text-purple-600' },
-    { label: 'Total Views', value: '0', icon: '👁️', color: 'bg-green-100 text-green-600' }, // Placeholder for now
+    { label: 'Drafts', value: myDrafts.length, icon: '📄', color: 'bg-yellow-100 text-yellow-600' },
   ];
 
   return (
@@ -141,6 +147,20 @@ export default function Dashboard() {
                     />
                   )}
                 </button>
+                <button
+                  onClick={() => setActiveTab('drafts')}
+                  className={`flex-1 py-4 text-center font-medium text-sm transition-colors relative ${
+                    activeTab === 'drafts' ? 'text-primary-600' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  My Drafts
+                  {activeTab === 'drafts' && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
+                    />
+                  )}
+                </button>
               </nav>
             </div>
 
@@ -203,6 +223,46 @@ export default function Dashboard() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {myContributions.map((story) => (
                             <StoryCard key={story._id} story={story} />
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'drafts' && (
+                    <motion.div
+                      key="drafts"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {myDrafts.length === 0 ? (
+                        <div className="text-center py-12">
+                          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
+                            📄
+                          </div>
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">No drafts yet</h3>
+                          <p className="text-gray-500 mb-6">You don't have any saved drafts.</p>
+                          <Link href="/stories" className="btn-primary">
+                            Browse Stories
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {myDrafts.map((draft) => (
+                            <div key={draft._id} className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                              <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">{draft.storyId?.title || 'Unknown Story'}</h3>
+                              <p className="text-gray-600 mb-4 line-clamp-3">{draft.content}</p>
+                              <div className="flex justify-between items-center mt-4">
+                                <span className="text-sm text-gray-500">
+                                  {new Date(draft.createdAt).toLocaleDateString()}
+                                </span>
+                                <Link href={`/stories/${draft.storyId?._id}`} className="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                                  Continue Writing →
+                                </Link>
+                              </div>
+                            </div>
                           ))}
                         </div>
                       )}

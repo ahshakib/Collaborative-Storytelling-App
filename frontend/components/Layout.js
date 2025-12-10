@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
-const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
+const Layout = ({ children, title = 'Collaborative Storytelling', hideHeader = false, hideFooter = false }) => {
   const { user, logout, isAuthenticated, loading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -133,7 +135,7 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -141,7 +143,8 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
       </Head>
 
       {/* Improved Sticky Navbar */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white shadow-sm'}`}>
+      {!hideHeader && (
+      <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg' : 'bg-white dark:bg-gray-900 shadow-sm'}`}>
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -151,9 +154,26 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
+               {/* Theme Toggle */}
+               <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-all mr-2"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'light' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                )}
+              </button>
+
               <Link 
                 href="/stories" 
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/stories') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'}`}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/stories') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-800'}`}
               >
                 Browse Stories
               </Link>
@@ -161,13 +181,13 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                 <>
                   <Link 
                     href="/stories/create" 
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/stories/create') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'}`}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/stories/create') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-800'}`}
                   >
                     Create Story
                   </Link>
                   <Link 
                     href="/dashboard" 
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/dashboard') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'}`}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${isActive('/dashboard') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-800'}`}
                   >
                     Dashboard
                   </Link>
@@ -175,7 +195,7 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                   {/* Notification Bell */}
                   <div className="relative notification-dropdown ml-2">
                     <button 
-                      className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all relative"
+                      className="p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 rounded-lg transition-all relative"
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,13 +209,13 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                     </button>
                     
                     {isNotificationOpen && (
-                      <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
-                        <div className="px-4 py-3 bg-gradient-to-r from-primary-50 to-primary-100 border-b border-gray-200 flex justify-between items-center">
-                          <h3 className="font-bold text-gray-900">Notifications</h3>
+                      <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-fadeIn">
+                        <div className="px-4 py-3 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-gray-700 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                          <h3 className="font-bold text-gray-900 dark:text-white">Notifications</h3>
                           {unreadCount > 0 && (
                             <button 
                               onClick={markAllAsRead}
-                              className="text-xs text-primary-600 hover:text-primary-800 font-semibold"
+                              className="text-xs text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 font-semibold"
                             >
                               Mark all read
                             </button>
@@ -203,15 +223,15 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                         </div>
                         <div className="max-h-96 overflow-y-auto">
                           {notifications.length === 0 ? (
-                            <p className="px-4 py-8 text-sm text-gray-500 text-center">No notifications</p>
+                            <p className="px-4 py-8 text-sm text-gray-500 dark:text-gray-400 text-center">No notifications</p>
                           ) : (
                             notifications.map(notification => (
                               <div 
                                 key={notification._id} 
-                                className={`px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors ${!notification.read ? 'bg-blue-50' : ''}`}
+                                className={`px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors ${!notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
                               >
-                                <p className="text-sm text-gray-800 font-medium">{notification.message}</p>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-sm text-gray-800 dark:text-gray-200 font-medium">{notification.message}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                   {new Date(notification.createdAt).toLocaleDateString()}
                                 </p>
                               </div>
@@ -225,29 +245,29 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                   {/* Profile Dropdown */}
                   <div className="relative profile-dropdown ml-2">
                     <button 
-                      className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-all"
+                      className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                       onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     >
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-800 rounded-full flex items-center justify-center text-white font-bold text-sm">
                         {user?.username?.charAt(0).toUpperCase()}
                       </div>
-                      <span className="font-medium text-gray-700">{user?.username}</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                      <span className="font-medium text-gray-700 dark:text-gray-200">{user?.username}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </button>
                     {isProfileDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 animate-fadeIn">
-                        <Link href="/profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-700 transition-colors">
+                      <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl py-2 border border-gray-100 dark:border-gray-700 animate-fadeIn">
+                        <Link href="/profile" className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">
                           <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
                           My Profile
                         </Link>
-                        <hr className="my-2 border-gray-100" />
+                        <hr className="my-2 border-gray-100 dark:border-gray-700" />
                         <button
                           onClick={logout}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         >
                           <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -260,7 +280,7 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                 </>
               ) : (
                 <div className="flex items-center space-x-2 ml-2">
-                  <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors">
+                  <Link href="/login" className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
                     Login
                   </Link>
                   <Link href="/register" className="px-6 py-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all font-medium">
@@ -272,7 +292,7 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+              className="md:hidden p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 rounded-lg transition-all"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -290,10 +310,10 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden py-4 space-y-1 border-t border-gray-100">
+            <nav className="md:hidden py-4 space-y-1 border-t border-gray-100 dark:border-gray-800">
               <Link 
                 href="/stories" 
-                className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/stories') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/stories') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
               >
                 Browse Stories
               </Link>
@@ -301,32 +321,32 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
                 <>
                   <Link 
                     href="/stories/create" 
-                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/stories/create') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'}`}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/stories/create') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
                   >
                     Create Story
                   </Link>
                   <Link 
                     href="/dashboard" 
-                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/dashboard') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'}`}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/dashboard') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
                   >
                     Dashboard
                   </Link>
                   <Link 
                     href="/profile" 
-                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/profile') ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'}`}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive('/profile') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
                   >
                     Profile
                   </Link>
                   <button
                     onClick={logout}
-                    className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all"
+                    className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-all"
                   >
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="block px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg font-medium transition-all">
+                  <Link href="/login" className="block px-4 py-3 text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800 rounded-lg font-medium transition-all">
                     Login
                   </Link>
                   <Link href="/register" className="block px-4 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg font-medium text-center">
@@ -338,9 +358,11 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
           )}
         </div>
       </header>
+      )}
 
       <main className="flex-grow">{children}</main>
 
+      {!hideFooter && (
       <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -469,6 +491,7 @@ const Layout = ({ children, title = 'Collaborative Storytelling' }) => {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 };

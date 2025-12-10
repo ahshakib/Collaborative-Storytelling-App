@@ -5,6 +5,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../../components/Layout';
 import { useAuth } from '../../context/AuthContext';
+import { storyTemplates } from '../../data/templates';
 import { createStory } from '../../services/storyService';
 
 // Import ReactQuill dynamically for client-side only
@@ -43,6 +44,24 @@ export default function CreateStory() {
       ...formData,
       description: value,
     });
+  };
+
+  const handleTemplateSelect = (template) => {
+    // Map template IDs to existing genres
+    const genreMap = {
+      'mystery': 'Mystery',
+      'scifi': 'Science Fiction',
+      'fantasy': 'Fantasy',
+      'romance': 'Romance',
+      'horror': 'Horror'
+    };
+
+    setFormData({
+      ...formData,
+      genre: genreMap[template.id] || 'Other',
+      description: template.content
+    });
+    toast.success(`Applied ${template.name} template!`);
   };
 
   const handleSubmit = async (e) => {
@@ -109,6 +128,29 @@ export default function CreateStory() {
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <form onSubmit={handleSubmit} className="p-8">
+                {/* Template Selection */}
+                <div className="mb-10">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <span className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center mr-3 text-sm">✨</span>
+                    Start with a Template (Optional)
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pl-11">
+                    {storyTemplates.map((template) => (
+                      <div 
+                        key={template.id}
+                        onClick={() => handleTemplateSelect(template)}
+                        className="border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-all group"
+                      >
+                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{template.icon}</div>
+                        <h3 className="font-bold text-gray-800 mb-1">{template.name}</h3>
+                        <p className="text-xs text-gray-500 line-clamp-2">{template.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <hr className="border-gray-100 my-8" />
+
                 {/* Basic Info Section */}
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">

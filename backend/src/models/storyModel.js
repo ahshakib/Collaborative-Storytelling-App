@@ -45,6 +45,21 @@ const storySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     }],
+    collaborators: [{
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      role: {
+        type: String,
+        enum: ['editor', 'contributor', 'viewer'],
+        default: 'contributor',
+      },
+      joinedAt: {
+        type: Date,
+        default: Date.now,
+      }
+    }],
     status: {
       type: String,
       enum: ['active', 'completed', 'archived'],

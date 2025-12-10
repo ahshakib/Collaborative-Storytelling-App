@@ -400,3 +400,52 @@ exports.selectContribution = async (req, res) => {
     });
   }
 };
+
+// Export getUserDrafts
+exports.getUserDrafts = async (req, res) => {
+  try {
+    const drafts = await Contribution.find({
+      userId: req.user.id,
+      status: 'draft'
+    })
+    .populate('storyId', 'title')
+    .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      drafts,
+    });
+  } catch (error) {
+    console.error('Get user drafts error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching drafts',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};
+
+// Export getUserStoryDraft
+exports.getUserStoryDraft = async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    
+    const draft = await Contribution.findOne({
+      userId: req.user.id,
+      storyId,
+      status: 'draft'
+    });
+
+    res.status(200).json({
+      success: true,
+      draft,
+    });
+  } catch (error) {
+    console.error('Get user story draft error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching draft',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};
