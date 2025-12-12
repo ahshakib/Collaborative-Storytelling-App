@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from '../utils/api';
 
 /**
  * Register a new user
@@ -8,7 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  * @returns {Promise} - API response
  */
 export const register = async (userData) => {
-  const response = await axios.post(`${API_URL}/auth/register`, userData);
+  const response = await api.post('/auth/register', userData);
   return response.data;
 };
 
@@ -19,7 +17,7 @@ export const register = async (userData) => {
  * @returns {Promise} - API response
  */
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+  const response = await api.post('/auth/login', { email, password });
   return response.data;
 };
 
@@ -28,7 +26,7 @@ export const login = async (email, password) => {
  * @returns {Promise} - API response
  */
 export const getProfile = async () => {
-  const response = await axios.get(`${API_URL}/auth/me`);
+  const response = await api.get('/auth/me');
   return response.data;
 };
 
@@ -38,7 +36,7 @@ export const getProfile = async () => {
  * @returns {Promise} - API response
  */
 export const updateProfile = async (userData) => {
-  const response = await axios.put(`${API_URL}/auth/profile`, userData);
+  const response = await api.put('/auth/profile', userData);
   return response.data;
 };
 
@@ -48,7 +46,7 @@ export const updateProfile = async (userData) => {
  * @returns {Promise} - API response
  */
 export const changePassword = async (passwordData) => {
-  const response = await axios.put(`${API_URL}/auth/password`, passwordData);
+  const response = await api.put('/auth/password', passwordData);
   return response.data;
 };
 
@@ -58,7 +56,7 @@ export const changePassword = async (passwordData) => {
  * @returns {Promise} - API response
  */
 export const forgotPassword = async (email) => {
-  const response = await axios.post(`${API_URL}/auth/forgot-password`, { email });
+  const response = await api.post('/auth/forgot-password', { email });
   return response.data;
 };
 
@@ -69,7 +67,7 @@ export const forgotPassword = async (email) => {
  * @returns {Promise} - API response
  */
 export const resetPassword = async (token, newPassword) => {
-  const response = await axios.post(`${API_URL}/auth/reset-password`, { token, newPassword });
+  const response = await api.post('/auth/reset-password', { token, newPassword });
   return response.data;
 };
 
@@ -78,6 +76,6 @@ export const resetPassword = async (token, newPassword) => {
  * @returns {Promise} - API response
  */
 export const verifyToken = async () => {
-  const response = await axios.get(`${API_URL}/auth/verify`);
+  const response = await api.get('/auth/verify');
   return response.data;
 };

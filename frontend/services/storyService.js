@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from '../utils/api';
 
 /**
  * Get all stories with pagination and filters
@@ -9,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  */
 export const getAllStories = async (params = {}) => {
   const queryString = new URLSearchParams(params).toString();
-  const response = await axios.get(`${API_URL}/stories?${queryString}`);
+  const response = await api.get(`/stories?${queryString}`);
   return response.data;
 };
 
@@ -19,7 +17,7 @@ export const getAllStories = async (params = {}) => {
  * @returns {Promise} - API response
  */
 export const getStoryById = async (id) => {
-  const response = await axios.get(`${API_URL}/stories/${id}`);
+  const response = await api.get(`/stories/${id}`);
   return response.data;
 };
 
@@ -29,7 +27,7 @@ export const getStoryById = async (id) => {
  * @returns {Promise} - API response
  */
 export const createStory = async (storyData) => {
-  const response = await axios.post(`${API_URL}/stories`, storyData);
+  const response = await api.post('/stories', storyData);
   return response.data;
 };
 
@@ -40,7 +38,7 @@ export const createStory = async (storyData) => {
  * @returns {Promise} - API response
  */
 export const updateStory = async (id, storyData) => {
-  const response = await axios.put(`${API_URL}/stories/${id}`, storyData);
+  const response = await api.put(`/stories/${id}`, storyData);
   return response.data;
 };
 
@@ -50,6 +48,6 @@ export const updateStory = async (id, storyData) => {
  * @returns {Promise} - API response
  */
 export const deleteStory = async (id) => {
-  const response = await axios.delete(`${API_URL}/stories/${id}`);
+  const response = await api.delete(`/stories/${id}`);
   return response.data;
 };

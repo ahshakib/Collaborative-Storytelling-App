@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from '../utils/api';
 
 /**
  * Create or update a vote
@@ -8,7 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  * @returns {Promise} - API response
  */
 export const createVote = async (voteData) => {
-  const response = await axios.post(`${API_URL}/votes`, voteData);
+  const response = await api.post('/votes', voteData);
   return response.data;
 };
 
@@ -18,7 +16,7 @@ export const createVote = async (voteData) => {
  * @returns {Promise} - API response
  */
 export const getContributionVotes = async (contributionId) => {
-  const response = await axios.get(`${API_URL}/votes/contribution/${contributionId}`);
+  const response = await api.get(`/votes/contribution/${contributionId}`);
   return response.data;
 };
 
@@ -28,6 +26,6 @@ export const getContributionVotes = async (contributionId) => {
  * @returns {Promise} - API response
  */
 export const getUserVote = async (contributionId) => {
-  const response = await axios.get(`${API_URL}/votes/user/contribution/${contributionId}`);
+  const response = await api.get(`/votes/user/contribution/${contributionId}`);
   return response.data;
 };
