@@ -18,57 +18,57 @@ const StoryCard = ({ story }) => {
 
   return (
     <motion.div 
-      whileHover={{ y: -5 }}
-      className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      whileHover={{ y: -4, x: -4 }}
+      className="bg-white dark:bg-zinc-900 rounded-none shadow-neo hover:shadow-none border-2 border-black dark:border-white transition-all duration-200 flex flex-col h-full"
     >
       <div className="p-6 flex-grow">
         <div className="flex justify-between items-start mb-4">
-          <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-primary-50 text-primary-700 border border-primary-100">
+          <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider bg-neo-yellow text-black border-2 border-black">
             {story.genre}
           </span>
           {story.status === 'completed' && (
-            <span className="inline-block px-2 py-1 text-xs font-medium rounded text-green-700 bg-green-50">
+            <span className="inline-block px-2 py-1 text-xs font-bold uppercase tracking-wider text-white bg-neo-green border-2 border-black">
               Completed
             </span>
           )}
         </div>
         
-        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors">
-          <Link href={`/stories/${story._id}`} className="hover:text-primary-600 transition-colors">
+        <h3 className="text-xl font-bold text-black dark:text-white mb-3 line-clamp-2">
+          <Link href={`/stories/${story._id}`} className="hover:text-neo-blue decoration-4 hover:underline decoration-neo-blue transition-colors">
             {story.title}
           </Link>
         </h3>
         
-        <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
+        <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3 text-sm leading-relaxed font-medium">
           {descriptionPreview}
         </p>
         
         <div className="flex flex-wrap gap-2 mb-4">
           {story.tags && story.tags.slice(0, 3).map((tag, index) => (
-            <span key={index} className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+            <span key={index} className="text-xs font-bold text-black bg-neo-off-white border-2 border-black px-2 py-1">
               #{tag}
             </span>
           ))}
         </div>
       </div>
       
-      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+      <div className="px-6 py-4 bg-neo-blue border-t-2 border-black flex items-center justify-between text-xs text-white font-bold">
         <div className="flex items-center">
-          <div className="w-6 h-6 rounded-full bg-primary-200 flex items-center justify-center text-primary-700 font-bold mr-2">
-            {story.creator.username.charAt(0).toUpperCase()}
+          <div className="w-8 h-8 bg-white border-2 border-black flex items-center justify-center text-black font-bold mr-2 uppercase">
+            {story.creator.username.charAt(0)}
           </div>
-          <span className="font-medium">{story.creator.username}</span>
+          <span className="font-bold text-sm">{story.creator.username}</span>
         </div>
         
         <div className="flex items-center space-x-3">
           <div className="flex items-center" title="Contributions">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
             </svg>
             <span>{story.contributions?.length || 0}</span>
           </div>
           <div className="flex items-center" title="Created">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
             </svg>
             <span>{formatDistanceToNow(new Date(story.createdAt), { addSuffix: true })}</span>

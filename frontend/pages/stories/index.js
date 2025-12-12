@@ -107,21 +107,21 @@ export default function Stories() {
         <title>Browse Stories | StoryCollab</title>
       </Head>
 
-      <div className="bg-gray-50 min-h-screen py-12">
+      <div className="bg-neo-off-white dark:bg-zinc-900 min-h-screen py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16 border-b-4 border-black pb-8">
             <motion.h1 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl font-extrabold text-gray-900 mb-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-5xl md:text-7xl font-black text-black dark:text-white mb-6 uppercase tracking-tighter"
             >
-              Explore Stories
+              Explore <span className="text-white bg-neo-blue px-4 border-4 border-black inline-block transform -rotate-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">Stories</span>
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-gray-600 max-w-2xl mx-auto"
+              className="text-xl font-bold text-gray-700 dark:text-gray-300 max-w-2xl mx-auto bg-white dark:bg-black p-2 border-2 border-black inline-block transform rotate-1"
             >
               Discover worlds created by our community, or start your own adventure.
             </motion.p>
@@ -132,11 +132,11 @@ export default function Stories() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8"
+            className="bg-neo-yellow border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 mb-12"
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="md:col-span-4 lg:col-span-1">
-                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="search" className="block text-sm font-black uppercase mb-1">
                   Search
                 </label>
                 <div className="relative">
@@ -144,13 +144,13 @@ export default function Stories() {
                     type="text"
                     id="search"
                     name="search"
-                    className="input-field pl-10"
-                    placeholder="Search stories..."
+                    className="neo-input w-full pl-10"
+                    placeholder="FIND A STORY..."
                     value={filters.search}
                     onChange={handleFilterChange}
                   />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -158,57 +158,57 @@ export default function Stories() {
               </div>
 
               <div>
-                <label htmlFor="genre" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="genre" className="block text-sm font-black uppercase mb-1">
                   Genre
                 </label>
                 <select
                   id="genre"
                   name="genre"
-                  className="input-field"
+                  className="neo-input w-full cursor-pointer"
                   value={filters.genre}
                   onChange={handleFilterChange}
                 >
                   {genres.map((genre) => (
                     <option key={genre} value={genre === 'All' ? '' : genre}>
-                      {genre}
+                      {genre.toUpperCase()}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="status" className="block text-sm font-black uppercase mb-1">
                   Status
                 </label>
                 <select
                   id="status"
                   name="status"
-                  className="input-field"
+                  className="neo-input w-full cursor-pointer"
                   value={filters.status}
                   onChange={handleFilterChange}
                 >
                   {statuses.map((status) => (
                     <option key={status} value={status === 'All' ? '' : status}>
-                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                      {status.toUpperCase()}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label htmlFor="sort" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="sort" className="block text-sm font-black uppercase mb-1">
                   Sort By
                 </label>
                 <select
                   id="sort"
                   name="sort"
-                  className="input-field"
+                  className="neo-input w-full cursor-pointer"
                   value={filters.sort}
                   onChange={handleFilterChange}
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
-                      {option.label}
+                      {option.label.toUpperCase()}
                     </option>
                   ))}
                 </select>
@@ -219,24 +219,24 @@ export default function Stories() {
           {/* Stories Grid */}
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+              <div className="animate-spin h-16 w-16 border-8 border-black border-t-neo-red rounded-none"></div>
             </div>
           ) : error ? (
-            <div className="text-center py-12 bg-red-50 rounded-xl border border-red-100 text-red-600">
-              <p>{error}</p>
+            <div className="text-center py-12 bg-neo-red text-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-bold text-xl">{error}</p>
             </div>
           ) : stories.length === 0 ? (
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm"
+              className="text-center py-20 bg-white border-4 border-dashed border-gray-400"
             >
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No stories found</h3>
-              <p className="text-gray-500 mb-6">Try adjusting your filters or search terms.</p>
+              <h3 className="text-2xl font-black text-black mb-2 uppercase">No stories found</h3>
+              <p className="text-gray-600 font-bold mb-6">Try adjusting your filters or search terms.</p>
               <button 
                 onClick={() => setFilters({ search: '', genre: '', status: '', sort: '-createdAt' })}
-                className="btn-outline"
+                className="neo-btn-primary bg-neo-blue text-white"
               >
                 Clear Filters
               </button>
@@ -256,20 +256,21 @@ export default function Stories() {
 
           {/* Pagination */}
           {!loading && !error && stories.length > 0 && (
-            <div className="flex justify-center mt-12">
-              <nav className="flex items-center space-x-2 bg-white p-2 rounded-lg shadow-sm border border-gray-100">
+            <div className="flex justify-center mt-16">
+              <nav className="flex items-center space-x-4 bg-white p-4 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <button
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-6 py-2 border-2 border-black font-black uppercase text-sm transition-all ${
                     pagination.page === 1 
-                      ? 'text-gray-300 cursor-not-allowed' 
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                      : 'bg-white hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]'
                   }`}
                 >
                   Previous
                 </button>
                 
+                <div className="flex space-x-2">
                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
                   .filter(page => {
                     return (
@@ -284,29 +285,30 @@ export default function Stories() {
                     
                     return (
                       <div key={page} className="flex items-center">
-                        {showEllipsisBefore && <span className="px-2 text-gray-400">...</span>}
+                        {showEllipsisBefore && <span className="px-2 font-black">...</span>}
                         <button
                           onClick={() => handlePageChange(page)}
-                          className={`w-10 h-10 rounded-md text-sm font-medium transition-all ${
+                          className={`w-10 h-10 border-2 border-black font-black text-sm transition-all ${
                             pagination.page === page 
-                              ? 'bg-primary-600 text-white shadow-md' 
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                              ? 'bg-neo-yellow text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]' 
+                              : 'bg-white hover:bg-gray-100'
                           }`}
                         >
                           {page}
                         </button>
-                        {showEllipsisAfter && <span className="px-2 text-gray-400">...</span>}
+                        {showEllipsisAfter && <span className="px-2 font-black">...</span>}
                       </div>
                     );
                   })}
+                </div>
                 
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={pagination.page === pagination.totalPages}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-6 py-2 border-2 border-black font-black uppercase text-sm transition-all ${
                     pagination.page === pagination.totalPages 
-                      ? 'text-gray-300 cursor-not-allowed' 
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                      : 'bg-white hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]'
                   }`}
                 >
                   Next

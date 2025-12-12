@@ -32,7 +32,7 @@ export default function InviteCollaboratorForm({ storyId, onInviteSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-gray-200 p-6">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-900 border-2 border-black dark:border-white p-6 shadow-neo">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Invite Collaborator</h3>
       
       <div className="space-y-4">

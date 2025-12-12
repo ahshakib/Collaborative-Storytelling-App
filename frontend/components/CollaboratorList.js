@@ -47,22 +47,22 @@ export default function CollaboratorList({ storyId, collaborators, creator, isCr
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Collaborators</h3>
+    <div className="bg-white dark:bg-zinc-900 border-2 border-black dark:border-white p-6 shadow-neo">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-black dark:text-white mb-4 border-b-2 border-black pb-2">Collaborators</h3>
 
       {/* Creator */}
-      <div className="mb-4 pb-4 border-b border-gray-200">
+      <div className="mb-4 pb-4 border-b-2 border-black border-dashed">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-semibold">
+            <div className="w-10 h-10 bg-neo-blue border-2 border-black flex items-center justify-center text-white font-bold text-lg">
               {creator.username?.charAt(0).toUpperCase()}
             </div>
             <div>
-              <p className="font-medium text-gray-900">{creator.username}</p>
-              <p className="text-sm text-gray-500">{creator.email}</p>
+              <p className="font-bold text-black dark:text-white">{creator.username}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-mono">{creator.email}</p>
             </div>
           </div>
-          <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+          <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-neo-yellow text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             Creator
           </span>
         </div>
@@ -74,17 +74,17 @@ export default function CollaboratorList({ storyId, collaborators, creator, isCr
           collaborators.map((collab) => (
             <motion.div
               key={collab.user._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-between py-2"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center justify-between py-2 hover:bg-neo-off-white dark:hover:bg-zinc-800 transition-colors p-2 border-2 border-transparent hover:border-black"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white font-semibold">
+                <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 border-2 border-black flex items-center justify-center text-black dark:text-white font-bold">
                   {collab.user.username?.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{collab.user.username}</p>
-                  <p className="text-sm text-gray-500">{collab.user.email}</p>
+                  <p className="font-bold text-black dark:text-white">{collab.user.username}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-mono">{collab.user.email}</p>
                 </div>
               </div>
 
@@ -95,7 +95,7 @@ export default function CollaboratorList({ storyId, collaborators, creator, isCr
                       value={collab.role}
                       onChange={(e) => handleRoleChange(collab.user._id, e.target.value)}
                       disabled={updatingRole === collab.user._id}
-                      className={`text-xs font-medium px-3 py-1 rounded-full border-0 cursor-pointer ${getRoleBadgeColor(collab.role)}`}
+                      className={`text-xs font-bold uppercase tracking-wide px-3 py-1 border-2 border-black cursor-pointer bg-white text-black focus:shadow-neo focus:outline-none`}
                     >
                       <option value="viewer">Viewer</option>
                       <option value="contributor">Contributor</option>
@@ -103,7 +103,7 @@ export default function CollaboratorList({ storyId, collaborators, creator, isCr
                     </select>
                     <button
                       onClick={() => handleRemove(collab.user._id, collab.user.username)}
-                      className="text-red-600 hover:text-red-700 p-1"
+                      className="text-neo-red hover:bg-neo-red hover:text-white border-2 border-transparent hover:border-black p-1 transition-all"
                       title="Remove collaborator"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -112,15 +112,19 @@ export default function CollaboratorList({ storyId, collaborators, creator, isCr
                     </button>
                   </>
                 ) : (
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleBadgeColor(collab.role)}`}>
-                    {collab.role.charAt(0).toUpperCase() + collab.role.slice(1)}
+                  <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider border-2 border-black ${
+                    collab.role === 'editor' ? 'bg-neo-blue text-white' : 
+                    collab.role === 'contributor' ? 'bg-neo-green text-white' : 
+                    'bg-gray-200 text-black'
+                  }`}>
+                    {collab.role}
                   </span>
                 )}
               </div>
             </motion.div>
           ))
         ) : (
-          <p className="text-gray-500 text-sm text-center py-4">No collaborators yet</p>
+          <p className="text-gray-500 font-medium text-center py-4 italic border-2 border-dashed border-gray-300">No collaborators yet</p>
         )}
       </div>
     </div>

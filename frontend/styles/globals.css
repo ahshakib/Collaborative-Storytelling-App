@@ -3,36 +3,79 @@
 @tailwind utilities;
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+    --neo-bg: #FFFFFF;
+    --neo-text: #202124;
+    --neo-border: #202124;
+}
+
+.dark {
+    --neo-bg: #202124;
+    --neo-text: #FFFFFF;
+    --neo-border: #FFFFFF;
 }
 
 body {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(to bottom,
-            transparent,
-            rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    color: var(--neo-text);
+    background-color: var(--neo-bg);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
 }
 
 @layer components {
+    .neo-btn {
+        @apply border-2 border-black dark:border-white bg-neo-white text-neo-black font-bold py-2 px-6 shadow-neo transition-all duration-200 active:shadow-none active:translate-x-[4px] active:translate-y-[4px] hover:bg-neo-blue hover:text-white uppercase tracking-wider;
+    }
+
+    .neo-btn-primary {
+        @apply neo-btn bg-neo-blue text-white hover:bg-blue-600;
+    }
+    
+    .neo-btn-secondary {
+        @apply neo-btn bg-neo-yellow text-black hover:bg-yellow-400;
+    }
+
+    .neo-card {
+        @apply border-2 border-black dark:border-white bg-white dark:bg-stone-900 shadow-neo rounded-none p-6;
+    }
+
+    .neo-input {
+        @apply w-full px-4 py-3 border-2 border-black dark:border-white rounded-none focus:outline-none focus:shadow-neo shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] bg-neo-off-white dark:bg-stone-800 text-neo-black dark:text-white transition-all duration-200;
+    }
+
+    /* Legacy support overrides */
     .btn-primary {
-        @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md transition-colors;
+        @apply neo-btn-primary rounded-none;
     }
 
     .btn-secondary {
-        @apply bg-secondary-600 hover:bg-secondary-700 text-white font-medium py-2 px-4 rounded-md transition-colors;
+        @apply neo-btn-secondary rounded-none;
     }
 
     .btn-outline {
-        @apply border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors;
+        @apply neo-btn bg-transparent hover:bg-neo-black hover:text-white rounded-none;
     }
 
     .input-field {
-        @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+        @apply neo-input;
     }
 
     .card {
-        @apply bg-white rounded-lg shadow-md p-6;
+        @apply neo-card;
     }
+}
+
+/* Custom Scrollbar for that chunky feel */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neo-off-white border-l-2 border-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neo-blue border-2 border-black hover:bg-neo-red;
 }

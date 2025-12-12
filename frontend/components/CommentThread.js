@@ -55,27 +55,27 @@ export default function CommentThread({ contributionId, comments = [], onComment
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-4 space-y-4"
+            className="mt-4 space-y-4 border-l-4 border-black pl-4"
           >
             {/* Existing Comments */}
             {comments.length > 0 && (
               <div className="space-y-3">
                 {comments.map((comment, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-3">
-                    <div className="flex items-start gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
+                  <div key={index} className="bg-neo-off-white border-2 border-black p-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-black text-white border-2 border-black flex items-center justify-center text-sm font-bold flex-shrink-0">
                         {comment.userId?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-sm text-gray-900">
+                          <span className="font-bold text-sm text-black">
                             {comment.userId?.username || 'Anonymous'}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-500 font-mono bg-white px-1 border border-black">
                             {formatDistanceToNow(comment.createdAt)}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
+                        <p className="text-sm text-gray-800 whitespace-pre-wrap break-words font-medium">
                           {comment.text}
                         </p>
                       </div>
@@ -91,18 +91,18 @@ export default function CommentThread({ contributionId, comments = [], onComment
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="input-field resize-none"
+                className="input-field resize-none bg-white font-mono text-sm"
                 rows={3}
                 maxLength={500}
                 disabled={isSubmitting}
               />
               <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 font-bold">
                   {newComment.length}/500
                 </span>
                 <button
                   type="submit"
-                  className="btn-primary text-sm py-1.5 px-4"
+                  className="neo-btn-primary text-sm py-1.5 px-4"
                   disabled={isSubmitting || !newComment.trim()}
                 >
                   {isSubmitting ? 'Posting...' : 'Post Comment'}
