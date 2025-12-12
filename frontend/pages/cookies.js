@@ -125,7 +125,7 @@ export default function Cookies() {
             <div className="bg-primary-50 p-4 rounded-lg">
               <h4 className="font-bold text-gray-900 mb-2">Opt-Out</h4>
               <p className="text-gray-600 text-sm">
-                You can opt out of certain third-party cookies by visiting the third party's website and following their opt-out instructions. For analytics cookies, you can use browser extensions or the third party's opt-out tools.
+                You can opt out of certain third-party cookies by visiting the third party&apos;s website and following their opt-out instructions. For analytics cookies, you can use browser extensions or the third party&apos;s opt-out tools.
               </p>
             </div>
           </div>
@@ -232,7 +232,7 @@ export default function Cookies() {
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Contact Us About Cookies</h2>
             <p className="text-gray-700 mb-6">
-              If you have any questions about how we use cookies or our cookie policy, please don't hesitate to reach out.
+              If you have any questions about how we use cookies or our cookie policy, please don&apos;t hesitate to reach out.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact" className="btn-primary inline-block text-center">

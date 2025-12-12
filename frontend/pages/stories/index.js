@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import StoryCard from '../../components/StoryCard';
 import { getAllStories } from '../../services/storyService';
@@ -45,15 +45,7 @@ export default function Stories() {
     { value: '-contributions', label: 'Most Contributions' },
   ];
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      fetchStories();
-    }, 500); // Debounce search
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [filters, pagination.page]);
-
-  const fetchStories = async () => {
+  const fetchStories = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
@@ -76,17 +68,25 @@ export default function Stories() {
 
       const response = await getAllStories(params);
       setStories(response.stories);
-      setPagination({
-        ...pagination,
-        totalPages: Math.ceil(response.totalStories / pagination.limit),
-      });
+      setPagination(prev => ({
+        ...prev,
+        totalPages: Math.ceil(response.totalStories / prev.limit),
+      }));
       setLoading(false);
     } catch (err) {
       console.error('Error fetching stories:', err);
       setError('Failed to load stories. Please try again later.');
       setLoading(false);
     }
-  };
+  }, [filters, pagination.page, pagination.limit]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchStories();
+    }, 500); // Debounce search
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [fetchStories]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

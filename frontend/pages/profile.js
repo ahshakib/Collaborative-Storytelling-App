@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
@@ -21,6 +21,21 @@ export default function Profile() {
     contributions: 0,
   });
 
+  const fetchUserStats = useCallback(async () => {
+    if (!user) return;
+    try {
+      const storiesResponse = await getAllStories({ creator: user._id });
+      const contributionsResponse = await getAllStories({ contributors: user._id, creator: { $ne: user._id } });
+      
+      setStats({
+        storiesCreated: storiesResponse.stories.length,
+        contributions: contributionsResponse.stories.length,
+      });
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  }, [user]);
+
   useEffect(() => {
     // Redirect if not authenticated
     if (!loading && !isAuthenticated) {
@@ -37,21 +52,7 @@ export default function Profile() {
       });
       fetchUserStats();
     }
-  }, [isAuthenticated, loading, user, router]);
-
-  const fetchUserStats = async () => {
-    try {
-      const storiesResponse = await getAllStories({ creator: user._id });
-      const contributionsResponse = await getAllStories({ contributors: user._id, creator: { $ne: user._id } });
-      
-      setStats({
-        storiesCreated: storiesResponse.stories.length,
-        contributions: contributionsResponse.stories.length,
-      });
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    }
-  };
+  }, [isAuthenticated, loading, user, router, fetchUserStats]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Head from 'next/head';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 
 export default function TermsOfService() {
@@ -63,13 +64,13 @@ export default function TermsOfService() {
 
                 <h2>7. Changes to Terms</h2>
                 <p>
-                  We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days' notice prior to any new terms taking effect.
+                  We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days&apos; notice prior to any new terms taking effect.
                 </p>
                 
                 <div className="mt-12 p-6 bg-gray-50 rounded-lg border border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mt-0">Questions?</h3>
                   <p className="mb-0">
-                    If you have any questions about these Terms, please <a href="/contact">contact us</a>.
+                    If you have any questions about these Terms, please <Link href="/contact" className="text-primary-600 hover:text-primary-700">contact us</Link>.
                   </p>
                 </div>
               </div>

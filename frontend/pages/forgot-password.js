@@ -41,7 +41,7 @@ export default function ForgotPassword() {
 
           {success ? (
             <div className="bg-green-50 text-green-600 p-4 rounded-md mb-6">
-              <p>We've sent password reset instructions to your email address.</p>
+              <p>We&apos;ve sent password reset instructions to your email address.</p>
               <p className="mt-2">
                 Please check your inbox and follow the instructions to reset your password.
               </p>
@@ -54,7 +54,7 @@ export default function ForgotPassword() {
           ) : (
             <>
               <p className="text-gray-600 mb-6">
-                Enter your email address below and we'll send you instructions to reset your password.
+                Enter your email address below and we&apos;ll send you instructions to reset your password.
               </p>
 
               <form onSubmit={handleSubmit}>

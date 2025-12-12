@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import StoryCard from '../components/StoryCard';
 import { useAuth } from '../context/AuthContext';
@@ -19,19 +19,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Redirect if not authenticated
-    if (!loading && !isAuthenticated) {
-      router.push('/login');
-      return;
-    }
-
-    if (isAuthenticated && user) {
-      fetchUserData();
-    }
-  }, [isAuthenticated, loading, user]);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -53,7 +41,19 @@ export default function Dashboard() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    // Redirect if not authenticated
+    if (!loading && !isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
+    if (isAuthenticated && user) {
+      fetchUserData();
+    }
+  }, [isAuthenticated, loading, user, router, fetchUserData]);
 
   if (loading || (!isAuthenticated && typeof window !== 'undefined')) {
     return (
@@ -85,7 +85,7 @@ export default function Dashboard() {
                 Welcome back, {user?.username}!
               </h1>
               <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                Here's what's happening with your stories.
+                Here&apos;s what&apos;s happening with your stories.
               </p>
             </div>
             <Link href="/stories/create" className="mt-6 md:mt-0 neo-btn-primary text-xl flex items-center gap-2 bg-neo-green text-black">
@@ -159,7 +159,7 @@ export default function Dashboard() {
                         <div className="text-center py-16 border-4 border-dashed border-gray-300">
                           <div className="text-6xl mb-6">📝</div>
                           <h3 className="text-2xl font-black text-black dark:text-white mb-2 uppercase">No stories yet</h3>
-                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You haven't created any stories yet. Start your journey today!</p>
+                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You haven&apos;t created any stories yet. Start your journey today!</p>
                           <Link href="/stories/create" className="neo-btn-primary">
                             Create Your First Story
                           </Link>
@@ -186,7 +186,7 @@ export default function Dashboard() {
                         <div className="text-center py-16 border-4 border-dashed border-gray-300">
                           <div className="text-6xl mb-6">✍️</div>
                           <h3 className="text-2xl font-black text-black dark:text-white mb-2 uppercase">No contributions yet</h3>
-                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You haven't contributed to any stories yet. Browse stories to find one you like!</p>
+                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You haven&apos;t contributed to any stories yet. Browse stories to find one you like!</p>
                           <Link href="/stories" className="neo-btn-primary">
                             Browse Stories
                           </Link>
@@ -213,7 +213,7 @@ export default function Dashboard() {
                         <div className="text-center py-16 border-4 border-dashed border-gray-300">
                           <div className="text-6xl mb-6">📄</div>
                           <h3 className="text-2xl font-black text-black dark:text-white mb-2 uppercase">No drafts yet</h3>
-                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You don't have any saved drafts.</p>
+                          <p className="text-gray-600 dark:text-gray-400 mb-8 font-bold">You don&apos;t have any saved drafts.</p>
                           <Link href="/stories" className="neo-btn-primary">
                             Browse Stories
                           </Link>

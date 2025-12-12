@@ -68,7 +68,7 @@ export default function AboutUs() {
           <motion.section variants={itemVariants} className="mb-20 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              StoryCollab was founded with a simple but powerful mission: to create a space where writers from all backgrounds and skill levels can come together to collaborate on stories that might never exist otherwise. We believe that storytelling is one of humanity's oldest traditions, and we're modernizing it for the digital age.
+              StoryCollab was founded with a simple but powerful mission: to create a space where writers from all backgrounds and skill levels can come together to collaborate on stories that might never exist otherwise. We believe that storytelling is one of humanity&apos;s oldest traditions, and we&apos;re modernizing it for the digital age.
             </p>
           </motion.section>
 
@@ -146,7 +146,7 @@ export default function AboutUs() {
           <motion.section variants={itemVariants} className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Start Writing?</h2>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Whether you're an experienced writer or just starting out, there's a place for you here. Join us and see where the story takes you.
+              Whether you&apos;re an experienced writer or just starting out, there&apos;s a place for you here. Join us and see where the story takes you.
             </p>
             <Link href="/register" className="btn-primary text-lg px-8 py-3 shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50">
               Sign Up Now

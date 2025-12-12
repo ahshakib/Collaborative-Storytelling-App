@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Head from 'next/head';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 
 export default function PrivacyPolicy() {
@@ -68,7 +69,7 @@ export default function PrivacyPolicy() {
 
                 <h2>6. Contact Us</h2>
                 <p>
-                  If you have any questions about this privacy policy or our privacy practices, please contact us via our <a href="/contact">Contact page</a>.
+If you have any questions about this privacy policy or our privacy practices, please contact us via our <Link href="/contact" className="text-primary-600 hover:text-primary-700">Contact page</Link>.
                 </p>
               </div>
             </div>

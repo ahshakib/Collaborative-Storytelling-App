@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../../components/Layout';
 import { useAuth } from '../../context/AuthContext';
@@ -23,13 +23,7 @@ export default function StoryDetail() {
   const [submitting, setSubmitting] = useState(false);
   const [userVotes, setUserVotes] = useState({});
 
-  useEffect(() => {
-    if (id) {
-      fetchStory();
-    }
-  }, [id]);
-
-  const fetchStory = async () => {
+  const fetchStory = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch story details
@@ -63,7 +57,13 @@ export default function StoryDetail() {
       setError('Failed to load story. Please try again later.');
       setLoading(false);
     }
-  };
+  }, [id, isAuthenticated, user]);
+
+  useEffect(() => {
+    if (id) {
+      fetchStory();
+    }
+  }, [id, fetchStory]);
 
   const handleContributionChange = (e) => {
     setNewContribution(e.target.value);
